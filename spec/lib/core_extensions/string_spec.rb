@@ -40,5 +40,13 @@ RSpec.describe 'String#add' do
     it 'ignores whitespace before and after the input string' do
       expect("   1,2,3   ".add).to eq(6)
     end
+
+    it 'ignores special character before and after the input string' do
+      expect("$1*,$2(,3#".add).to eq(6)
+    end
+
+    it 'raises an error for negative numbers with special character' do
+      expect{ "$-1*,$2(,3#".add }.to raise_error("negative numbers not allowed: -1")
+    end
   end
 end
