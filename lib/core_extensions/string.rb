@@ -1,15 +1,16 @@
 # lib/core_extensions/string.rb
 module CoreExtensions
   module String
-    refine String do
+    refine ::String do
       def add
-        return 0 if strip.empty?
-        numbers = strip.extract_numbers
+        return 0 if blank?
 
-        negatives = numbers.select { |n| n < 0 }
+        nums = extract_numbers
+        negatives = nums.select(&:negative?)
+
         raise "negative numbers not allowed: #{negatives.join(', ')}" if negatives.any?
 
-        numbers.sum
+        nums.sum
       end
 
       def extract_numbers
