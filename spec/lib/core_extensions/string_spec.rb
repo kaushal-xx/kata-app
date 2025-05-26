@@ -47,7 +47,7 @@ RSpec.describe 'String#add' do
     end
 
     it 'raises an error for negative numbers with special character' do
-      expect{ "$-1*,$2(,3#".add }.to raise_error("negative numbers not allowed: -1")
+      expect { "$-1*,$2(,3#".add }.to raise_error("negative numbers not allowed: -1")
     end
 
     it 'raises NoMethodError when called on Integer' do
@@ -65,15 +65,15 @@ RSpec.describe 'String#add' do
 
   describe '#extract_numbers' do
     it 'extracts integers from a string' do
-      expect("abc123xyz456".extract_numbers).to eq([123, 456])
+      expect("abc123xyz456".extract_numbers).to eq([ 123, 456 ])
     end
 
     it 'extracts floats from a string' do
-      expect("price: 12.5, tax: 2.5".extract_numbers).to eq([12.5, 2.5])
+      expect("price: 12.5, tax: 2.5".extract_numbers).to eq([ 12.5, 2.5 ])
     end
 
     it 'handles negative numbers' do
-      expect("profit: -40, loss: -3.5".extract_numbers).to eq([-40, -3.5])
+      expect("profit: -40, loss: -3.5".extract_numbers).to eq([ -40, -3.5 ])
     end
 
     it 'returns empty array if no numbers exist' do
@@ -81,15 +81,15 @@ RSpec.describe 'String#add' do
     end
 
     it 'mixes integers and floats' do
-      expect("a1 b2.5 c3".extract_numbers).to eq([1, 2.5, 3])
+      expect("a1 b2.5 c3".extract_numbers).to eq([ 1, 2.5, 3 ])
     end
 
     it 'ignores non-numeric characters' do
-      expect("$20.5 + @3 and -1.1!".extract_numbers).to eq([20.5, 3, -1.1])
+      expect("$20.5 + @3 and -1.1!".extract_numbers).to eq([ 20.5, 3, -1.1 ])
     end
 
     it 'raises an error for invalid data type' do
-      expect("$20.5 + @3 and -1.1!".extract_numbers).to eq([20.5, 3, -1.1])
+      expect("$20.5 + @3 and -1.1!".extract_numbers).to eq([ 20.5, 3, -1.1 ])
     end
 
     it 'raises NoMethodError when called on Integer' do
@@ -101,11 +101,11 @@ RSpec.describe 'String#add' do
     end
 
     it 'raises NoMethodError when called on Array' do
-      expect { [1, 2, 3].extract_numbers }.to raise_error(NoMethodError, /undefined method 'extract_numbers' for an instance of Array/)
+      expect { [ 1, 2, 3 ].extract_numbers }.to raise_error(NoMethodError, /undefined method 'extract_numbers' for an instance of Array/)
     end
 
     it 'works correctly when called on a String' do
-      expect("value 12 and -3.5".extract_numbers).to eq([12, -3.5])
+      expect("value 12 and -3.5".extract_numbers).to eq([ 12, -3.5 ])
     end
   end
 end

@@ -15,7 +15,7 @@ module CoreExtensions
 
       def extract_numbers
         scan(/-?\d+(?:\.\d+)?/).map do |n|
-          n.include?('.') ? n.to_f : n.to_i
+          n.include?(".") ? n.to_f : n.to_i
         end
       end
     end
