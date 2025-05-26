@@ -4,22 +4,18 @@ module CoreExtensions
     refine String do
       def add
         return 0 if strip.empty?
-
-        delimiter = /,|\n/
-        input = dup
-
-        if input.start_with?("//")
-          delimiter_line, input = input.split("\n", 2)
-          custom_delimiter = delimiter_line[2..]
-          delimiter = Regexp.escape(custom_delimiter)
-        end
-
-        numbers = input.split(/#{delimiter}/).map(&:to_i)
+        numbers = strip.extract_numbers
 
         negatives = numbers.select { |n| n < 0 }
         raise "negative numbers not allowed: #{negatives.join(', ')}" if negatives.any?
 
         numbers.sum
+      end
+
+      def extract_numbers
+        scan(/-?\d+(?:\.\d+)?/).map do |n|
+          n.include?('.') ? n.to_f : n.to_i
+        end
       end
     end
   end
