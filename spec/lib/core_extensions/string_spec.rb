@@ -49,6 +49,18 @@ RSpec.describe 'String#add' do
     it 'raises an error for negative numbers with special character' do
       expect{ "$-1*,$2(,3#".add }.to raise_error("negative numbers not allowed: -1")
     end
+
+    it 'raises NoMethodError when called on Integer' do
+      expect { 123.add }.to raise_error(NoMethodError, /undefined method 'add' for an instance of Integer/)
+    end
+
+    it 'raises NoMethodError when called on nil' do
+      expect { 1.2.add }.to raise_error(NoMethodError, /undefined method 'add' for an instance of Float/)
+    end
+
+    it 'does not raise error when called on a String' do
+      expect { "1,2,3".add }.not_to raise_error
+    end
   end
 
   describe '#extract_numbers' do
@@ -74,6 +86,26 @@ RSpec.describe 'String#add' do
 
     it 'ignores non-numeric characters' do
       expect("$20.5 + @3 and -1.1!".extract_numbers).to eq([20.5, 3, -1.1])
+    end
+
+    it 'raises an error for invalid data type' do
+      expect("$20.5 + @3 and -1.1!".extract_numbers).to eq([20.5, 3, -1.1])
+    end
+
+    it 'raises NoMethodError when called on Integer' do
+      expect { 123.extract_numbers }.to raise_error(NoMethodError, /undefined method 'extract_numbers' for an instance of Integer/)
+    end
+
+    it 'raises NoMethodError when called on nil' do
+      expect { 1.3.extract_numbers }.to raise_error(NoMethodError, /undefined method 'extract_numbers' for an instance of Float/)
+    end
+
+    it 'raises NoMethodError when called on Array' do
+      expect { [1, 2, 3].extract_numbers }.to raise_error(NoMethodError, /undefined method 'extract_numbers' for an instance of Array/)
+    end
+
+    it 'works correctly when called on a String' do
+      expect("value 12 and -3.5".extract_numbers).to eq([12, -3.5])
     end
   end
 end
